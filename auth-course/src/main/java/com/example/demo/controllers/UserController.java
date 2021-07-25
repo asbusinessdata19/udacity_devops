@@ -26,13 +26,13 @@ public class UserController {
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 	
 	@Autowired
-	BCryptPasswordEncoder bCryptPasswordEncoder;
+	public BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Autowired
-	private UserRepository userRepository;
+	public UserRepository userRepository;
 	
 	@Autowired
-	private CartRepository cartRepository;
+	public CartRepository cartRepository;
 
 	@GetMapping("/id/{id}")
 	public ResponseEntity<User> findById(@PathVariable Long id) {

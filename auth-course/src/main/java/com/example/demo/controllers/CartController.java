@@ -24,13 +24,13 @@ import com.example.demo.model.requests.ModifyCartRequest;
 public class CartController {
 	
 	@Autowired
-	private UserRepository userRepository;
+	public UserRepository userRepository;
 	
 	@Autowired
-	private CartRepository cartRepository;
+	public CartRepository cartRepository;
 	
 	@Autowired
-	private ItemRepository itemRepository;
+	public ItemRepository itemRepository;
 	
 	@PostMapping("/addToCart")
 	public ResponseEntity<Cart> addTocart(@RequestBody ModifyCartRequest request) {
