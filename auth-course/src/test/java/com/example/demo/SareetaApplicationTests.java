@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +20,9 @@ import com.example.demo.controllers.ItemController;
 import com.example.demo.controllers.OrderController;
 import com.example.demo.controllers.UserController;
 import com.example.demo.model.persistence.Cart;
+import com.example.demo.model.persistence.Item;
 import com.example.demo.model.persistence.User;
+import com.example.demo.model.persistence.UserOrder;
 import com.example.demo.model.persistence.repositories.CartRepository;
 import com.example.demo.model.persistence.repositories.ItemRepository;
 import com.example.demo.model.persistence.repositories.OrderRepository;
@@ -39,7 +43,6 @@ public class SareetaApplicationTests {
 	private CartController cartController;
 	private ItemController itemController;
 	private OrderController orderController;
-	
 	private UserRepository userRepo = mock(UserRepository.class);
 	private CartRepository cartRepo = mock(CartRepository.class);
 	private BCryptPasswordEncoder encoder= mock(BCryptPasswordEncoder.class);
@@ -73,18 +76,6 @@ public class SareetaApplicationTests {
 		ResponseEntity<Object> response = userController.createUser(request);
 		assertNotNull(response);
 		assertEquals(200, response.getStatusCodeValue());
-		User user = (User) response.getBody();
-		System.out.println(user);
-		user.setId(null);
-		user.setUsername("lasaleh");
-		response = userController.createUser(request);
-		assertNotNull(response);
-		assertEquals(200, response.getStatusCodeValue());
-		user = (User) response.getBody();
-		System.out.println(user);
-		
-		assertNotNull(user);
-		assertNotNull(user.getId());
 	}
 	
 	@Test
@@ -132,6 +123,7 @@ public class SareetaApplicationTests {
 		ModifyCartRequest request = new ModifyCartRequest("asaleh",1,1);
 		ResponseEntity<Cart> response = cartController.addTocart(request);
 		assertNotNull(response);
+		assertEquals(404, response.getStatusCodeValue());
 	}
 	
 	@Test
@@ -139,7 +131,59 @@ public class SareetaApplicationTests {
 		ModifyCartRequest request = new ModifyCartRequest("asaleh",1,1);
 		ResponseEntity<Cart> response = cartController.removeFromcart(request);
 		assertNotNull(response);
+		assertEquals(404, response.getStatusCodeValue());
 	}
+	
+	
+	@Test
+	public void submitUserOrderFailure() throws Exception{
+		ResponseEntity<UserOrder> response = orderController.submit("asaleh");
+		assertNotNull(response);
+		assertEquals(404, response.getStatusCodeValue());
+	}
+	
+	@Test
+	public void UserOrdersHistoryFailure() throws Exception{
+		ResponseEntity<List<UserOrder>> response = orderController.getOrdersForUser("asaleh");
+		assertNotNull(response);
+		assertEquals(404, response.getStatusCodeValue());
+	}
+	
+	@Test
+	public void testListAllItems() throws Exception{
+		ResponseEntity<List<Item>> response = itemController.getItems();
+		assertNotNull(response);
+		assertEquals(200, response.getStatusCodeValue());
+	}
+	
+	@Test
+	public void testGetItemById() throws Exception{
+		ResponseEntity<Item> response = itemController.getItemById(1L);
+		assertNotNull(response);
+		assertEquals(404, response.getStatusCodeValue());
+	}
+	
+	@Test
+	public void testGetItemByName() throws Exception{
+		ResponseEntity<List<Item>> response = itemController.getItemsByName("Round Widget");
+		assertNotNull(response);
+		assertEquals(404, response.getStatusCodeValue());
+	}
+	
+	@Test
+	public void testGetUserById() throws Exception{
+		ResponseEntity<User> response = userController.findById(1L);
+		assertNotNull(response);
+		assertEquals(404, response.getStatusCodeValue());
+	}
+	
+	@Test
+	public void testGetUserByUsername() throws Exception{
+		ResponseEntity<User> response = userController.findByUserName("asaleh");
+		assertNotNull(response);
+		assertEquals(404, response.getStatusCodeValue());
+	}
+	
 	
 	
 }

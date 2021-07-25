@@ -16,10 +16,10 @@ import com.example.demo.model.persistence.repositories.UserRepository;
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 	
 	@Autowired
-	UserRepository userRepository;
+	public UserRepository userRepository;
 	
 	@Autowired
-	BCryptPasswordEncoder bCryptPasswordEncoder;
+	public BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 
 	@Override
